@@ -3,4 +3,5 @@
   roles:
     - base
     - influxdb
+    - mosquitto
     - pms5003

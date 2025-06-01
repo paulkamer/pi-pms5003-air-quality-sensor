@@ -1,6 +1,16 @@
+import paho.mqtt.client as mqtt
 from pms5003 import PMS5003
+import time
+import json
+
+MQTT_BROKER = "localhost"
+MQTT_PORT = 1883
+MQTT_TOPIC = "sensor/pms5003"
 
 pms5003 = PMS5003(device="/dev/ttyAMA0", baudrate=9600, pin_enable="GPIO22", pin_reset="GPIO27")
+
+mqtt_client = mqtt.Client()
+mqtt_client.connect(MQTT_BROKER, MQTT_PORT, 60)
 
 try:
     while True:
@@ -22,6 +32,7 @@ try:
         }
         
         print(pm_data)
+        mqtt_client.publish(MQTT_TOPIC, json.dumps(pm_data))
 
 
 except KeyboardInterrupt:

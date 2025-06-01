@@ -12,3 +12,10 @@
     dest: "/opt/projects/pms5003-app"
     rsync_opts:
       - "--exclude=.git,ansible,venv"
+
+- name: Install Python dependencies from requirements.txt
+  pip:
+    requirements: "/opt/projects/pms5003-app/requirements.txt"
+    virtualenv: "~/.virtualenvs/pimoroni"
+    virtualenv_command: "python -m venv"
+    virtualenv_python: python

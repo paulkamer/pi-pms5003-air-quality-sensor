@@ -1,0 +1,14 @@
+---
+- name: Install Mosquitto and client tools
+  become: true
+  apt:
+    name:
+      - mosquitto
+      - mosquitto-clients
+    state: present
+
+- name: Ensure Mosquitto service is enabled and started
+  systemd:
+    name: mosquitto
+    enabled: true
+    state: started
