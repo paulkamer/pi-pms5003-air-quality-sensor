@@ -5,7 +5,24 @@ pms5003 = PMS5003(device="/dev/ttyAMA0", baudrate=9600, pin_enable="GPIO22", pin
 try:
     while True:
         data = pms5003.read()
-        print(data)
+        
+        pm_data = {
+            "pm1_0_ug_m3": data.pm_ug_per_m3(1.0),
+            "pm2_5_ug_m3": data.pm_ug_per_m3(2.5),
+            "pm10_ug_m3": data.pm_ug_per_m3(10.0),
+            "pm1_0_ug_m3_atmos_env": data.pm_ug_per_m3(1.0, atmospheric_environment=True),
+            "pm2_5_ug_m3_atmos_env": data.pm_ug_per_m3(2.5, atmospheric_environment=True),    
+            "pm10_ug_m3_atmos_env": data.pm_ug_per_m3(None, atmospheric_environment=True),
+            "pm0_3_per_1l_air": data.pm_per_1l_air(0.3),
+            "pm0_5_per_1l_air": data.pm_per_1l_air(0.5),
+            "pm1_0_per_1l_air": data.pm_per_1l_air(1.0),
+            "pm2_5_per_1l_air": data.pm_per_1l_air(2.5),
+            "pm5_per_1l_air": data.pm_per_1l_air(5),
+            "pm10_per_1l_air": data.pm_per_1l_air(10),
+        }
+        
+        print(pm_data)
+
 
 except KeyboardInterrupt:
     pass
