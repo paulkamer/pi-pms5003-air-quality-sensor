@@ -1,0 +1,14 @@
+---
+# - name: Clone pi-pms5003-air-quality-sensor
+#   git:
+#     repo: https://github.com/paulkamer/pi-pms5003-air-quality-sensor.git
+#     dest: /opt/projects/pms5003-app
+#     clone: yes
+#     update: yes
+
+- name: Synchronize local Git repo to remote
+  ansible.posix.synchronize:
+    src: "../../../../"
+    dest: "/opt/projects/pms5003-app"
+    rsync_opts:
+      - "--exclude=.git,ansible,venv"

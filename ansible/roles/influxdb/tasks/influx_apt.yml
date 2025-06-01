@@ -1,0 +1,14 @@
+---
+- name: Import the influx key into apt
+  become: true
+  apt_key:
+    url: https://repos.influxdata.com/influxdata-archive_compat.key
+    state: present
+
+- name: Add influx deb repository
+  become: true
+  apt_repository:
+    repo: "deb https://repos.influxdata.com/debian bookworm stable"
+    filename: influxdb
+    state: present
+    update_cache: yes

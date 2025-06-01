@@ -1,0 +1,5 @@
+---
+- name: Enable serial interface
+  become: true   
+  ansible.builtin.shell: |
+    raspi-config nonint do_serial_hw 0
