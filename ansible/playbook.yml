@@ -1,0 +1,39 @@
+- name: Install dependencies for PMS5003 Particulate Sensor
+  hosts: pi4
+  tasks:
+    - name: Update package list
+      become: true
+      apt:
+        update_cache: yes
+
+    - name: Install dependencies
+      apt:
+        name:
+          - wget
+          - unzip
+          - git
+          - python3
+          - python3-pip
+          - python3-venv
+        state: present
+
+
+    - name: Enable serial
+      become: true   
+      ansible.builtin.shell: |
+        raspi-config nonint do_serial_hw 0     
+
+
+    - name: Clone pms5003-python
+      git:
+        repo: https://github.com/pimoroni/pms5003-python.git
+        dest: /opt/projects/pms5003-sensor
+        clone: yes
+        update: yes
+
+    - name: Install pms5003-python
+      ansible.builtin.shell: ./install.sh -f >> install_log.txt     
+      args:
+        chdir: /opt/projects/pms5003-sensor/
+      
+
