@@ -1,0 +1,7 @@
+---
+- name: Install InfluxDB
+  become: true
+  apt:
+    name: influxdb2
+    update_cache: yes
+    cache_valid_time: 3600 

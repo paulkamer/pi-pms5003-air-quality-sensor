@@ -1,17 +1,17 @@
 ---
-# - name: Clone pi-pms5003-air-quality-sensor
-#   git:
-#     repo: https://github.com/paulkamer/pi-pms5003-air-quality-sensor.git
-#     dest: /opt/projects/pms5003-app
-#     clone: yes
-#     update: yes
+- name: Clone pi-pms5003-air-quality-sensor
+  git:
+    repo: https://github.com/paulkamer/pi-pms5003-air-quality-sensor.git
+    dest: /opt/projects/pms5003-app
+    clone: yes
+    update: yes
 
-- name: Synchronize local Git repo to remote
-  ansible.posix.synchronize:
-    src: "../../../../"
-    dest: "/opt/projects/pms5003-app"
-    rsync_opts:
-      - "--exclude=.git,ansible,venv"
+# - name: Synchronize local Git repo to remote
+#   ansible.posix.synchronize:
+#     src: "../../../../"
+#     dest: "/opt/projects/pms5003-app"
+#     rsync_opts:
+#       - "--exclude=.git,ansible,venv"
 
 - name: Install Python dependencies from requirements.txt
   pip:
@@ -19,3 +19,21 @@
     virtualenv: "~/.virtualenvs/pimoroni"
     virtualenv_command: "python -m venv"
     virtualenv_python: python
+
+- name: Copy start_pms5003-app.sh script
+  template:
+    src: ../files/start_pms5003-app.sh
+    dest: ~/start_pms5003-app.sh
+    mode: 0744
+
+- name: Copy pms5003-app.sh service file
+  become: true
+  template:
+    src: ../files/pms5003-app.service
+    dest: /etc/systemd/system/pms5003-app.service
+    owner: root
+    group: root
+    mode: 0744
+  notify:
+    - enable_pms5003_service
+    - restart_pms5003_service

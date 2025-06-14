@@ -1,0 +1,14 @@
+---
+- name: Install Grafana
+  become: true
+  apt:
+    name: grafana
+    state: present
+    update_cache: yes
+
+- name: Ensure Grafana is running
+  become: true
+  systemd:
+    name: grafana-server
+    enabled: yes
+    state: started

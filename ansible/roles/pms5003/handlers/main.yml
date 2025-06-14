@@ -1,0 +1,14 @@
+---
+- name: enable_pms5003_service
+  become: true
+  systemd:
+    name: pms5003-app
+    enabled: yes
+    daemon_reload: yes
+
+- name: restart_pms5003_service
+  become: true
+  systemd:
+    name: pms5003-app
+    state: restarted
+    daemon_reload: yes

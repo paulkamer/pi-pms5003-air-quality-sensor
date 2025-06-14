@@ -1,4 +1,13 @@
 ---
+- name: Create /opt/projects directory
+  become: true
+  ansible.builtin.file:
+    path: /opt/projects
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_gid | default(ansible_user_id) }}"
+    mode: '0755'
+
 - name: Clone pms5003-python
   git:
     repo: https://github.com/pimoroni/pms5003-python.git

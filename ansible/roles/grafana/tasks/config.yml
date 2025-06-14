@@ -1,0 +1,26 @@
+---
+- name: Create Grafana provisioning directory
+  become: true
+  file:
+    path: /etc/grafana/provisioning/datasources
+    state: directory
+
+- name: Provision InfluxDB data source
+  become: true
+  copy:
+    dest: /etc/grafana/provisioning/datasources/influxdb.yml
+    content: |
+      apiVersion: 1
+      datasources:
+        - name: InfluxDB
+          type: influxdb
+          access: proxy
+          url: http://{{ influxdb_host }}:{{ influxdb_port }}
+          jsonData:
+            version: Flux
+            organization: {{ influxdb_org }}
+            defaultBucket: {{ influxdb_telegraf_bucket }}
+            tlsSkipVerify: true
+          secureJsonData:
+            token: {{ influxdb_admin_token }}
+  notify: restart_grafana

@@ -1,0 +1,13 @@
+[Unit]
+Description=Systemd service to start PMS5003 app on startup
+After=multi-user.target
+
+[Service]
+User={{ ansible_user_id }}
+Group={{ ansible_user_gid | default(ansible_user_id) }}
+Type=simple
+ExecStart=/bin/sh /home/{{ ansible_user_id }}/start_pms5003-app.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

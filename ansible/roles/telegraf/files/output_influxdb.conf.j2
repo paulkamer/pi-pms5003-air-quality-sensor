@@ -1,0 +1,15 @@
+[[outputs.influxdb_v2]]
+  urls = ["http://{{ influxdb_host }}:8086"]
+  token = "{{ influxdb_admin_token }}"
+  organization = "{{ influxdb_org }}"
+  bucket = "{{ influxdb_telegraf_bucket }}"
+  namepass = ["*mqtt_consumer*"]
+
+# Health metrics - filter and store in default bucket
+[[outputs.influxdb_v2]]
+  urls = ["http://{{ influxdb_host }}:8086"]
+  token = "{{ influxdb_admin_token }}"
+  organization = "{{ influxdb_org }}"
+  bucket = "{{ influxdb_default_bucket }}"
+  namedrop = ["*mqtt_consumer*"]
+  fieldpass = ["load1", "load5", "load15", "total_threads", "dead", "blocked", "vmalloc_used", "swap_free", "usage_iowait"]

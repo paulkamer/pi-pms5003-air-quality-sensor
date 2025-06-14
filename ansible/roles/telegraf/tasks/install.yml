@@ -1,0 +1,29 @@
+---
+- name: Install Telegraf
+  become: true
+  apt:
+    name:
+      - telegraf
+    state: present
+  register: install_telegraf
+
+- name: Deploy Telegraf output config for InfluxDB
+  become: true
+  template:
+    src: ../files/output_influxdb.conf.j2
+    dest: /etc/telegraf/telegraf.d/output_influxdb.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart_telegraf
+
+
+- name: Deploy Telegraf input config for InfluxDB
+  become: true
+  template:
+    src: ../files/input_mqtt.conf
+    dest: /etc/telegraf/telegraf.d/input_mqtt.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart_telegraf

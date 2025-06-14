@@ -1,8 +1,9 @@
 ---
-- name: Import the influx key into apt
+- name: Add Telegraf repository key
   become: true
   apt_key:
-    url: https://repos.influxdata.com/influxdata-archive_compat.key
+    url: https://repos.influxdata.com/influxdb.key
+    keyring: /etc/apt/trusted.gpg.d/telegraf.gpg
     state: present
 
 - name: Add influx deb repository
@@ -12,3 +13,4 @@
     filename: influxdb
     state: present
     update_cache: yes
+    

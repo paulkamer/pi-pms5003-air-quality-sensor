@@ -1,0 +1,41 @@
+---
+- name: Start influxdb service
+  become: true
+  systemd:
+    name: influxdb
+    enabled: yes
+    state: started
+
+- name: Wait for InfluxDB API to be available
+  uri:
+    url: http://{{ influxdb_host }}:{{ influxdb_port }}/health
+    status_code: 200
+  register: influx_health
+  retries: 10
+  delay: 3
+  until: influx_health.status == 200
+
+# TODO only run this and extracting the token when initially setting up InfluxDB
+
+- name: Run InfluxDB setup
+  command: >
+    influx setup --name home
+                 --username {{ influxdb_username }}
+                 --password {{ influxdb_password }}
+                 --org {{ influxdb_org }}
+                 --bucket {{ influxdb_default_bucket }}
+                 --retention {{ influxdb_retention }}
+                 --token {{ influxdb_admin_token }}
+                 --force
+  register: influx_setup
+  changed_when: "'Setup failed' not in influx_setup.stderr"
+
+- name: Create separate bucket for Telegraf
+  command: >
+    influx bucket create
+      --name {{ influxdb_telegraf_bucket }}
+      --org {{ influxdb_org }}
+      --token {{ influxdb_admin_token }}
+      --retention {{ influxdb_telegraf_retention | default('0') }}
+  register: telegraf_bucket
+  changed_when: "'already exists' not in telegraf_bucket.stderr"
