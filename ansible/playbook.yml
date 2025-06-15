@@ -1,5 +1,5 @@
 - name: Install dependencies for PMS5003 Particulate Sensor
-  hosts: pi4
+  hosts: raspberries
   roles:
     - base
     - influxdb
@@ -21,27 +21,3 @@
     influxdb_telegraf_bucket: "telegraf"
     influxdb_token_file: /tmp/influxdb_token.txt
     influxdb_admin_token: "{{ vault_influxdb_admin_token }}"
-
-- name: Install dependencies for PMS5003 Particulate Sensor on the Pi Zero 2
-  hosts: pi0
-  roles:
-    - base
-    - influxdb
-    - mosquitto
-    - telegraf
-    - grafana
-    - pms5003
-
-  vars_files:
-    - vars/secrets.yml
-  vars:
-    influxdb_username: "admin"
-    influxdb_password: "{{ vault_influxdb_password }}"
-    influxdb_host: "localhost"
-    influxdb_port: 8086
-    influxdb_retention: "30d"
-    influxdb_org: "home"
-    influxdb_default_bucket: "influx_health"
-    influxdb_telegraf_bucket: "telegraf"
-    influxdb_token_file: /tmp/influxdb_token.txt
-    influxdb_admin_token: "{{ vault_influxdb_admin_token }}"    
