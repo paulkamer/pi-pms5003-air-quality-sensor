@@ -7,6 +7,16 @@
     state: present
   register: install_telegraf
 
+
+- name: Deploy measure_cpu_temp script
+  become: true
+  template:
+    src: ../files/measure_cpu_temp.sh
+    dest: /usr/local/bin/measure_cpu_temp.sh
+    owner: telegraf
+    group: telegraf
+    mode: 0744
+
 - name: Deploy Telegraf output config for InfluxDB
   become: true
   template:
