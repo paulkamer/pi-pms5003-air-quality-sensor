@@ -3,11 +3,14 @@ from pms5003 import PMS5003
 import time
 import json
 
+PIN_ENABLE = "GPIO22"
+PIN_RESET = "GPIO27"
+
 MQTT_BROKER = "localhost"
 MQTT_PORT = 1883
 MQTT_TOPIC = "sensor/pms5003"
 
-pms5003 = PMS5003(device="/dev/ttyAMA0", baudrate=9600, pin_enable="GPIO22", pin_reset="GPIO27")
+pms5003 = PMS5003(device="/dev/ttyAMA0", baudrate=9600, pin_enable=PIN_ENABLE, pin_reset=PIN_RESET)
 
 mqtt_client = mqtt.Client()
 mqtt_client.connect(MQTT_BROKER, MQTT_PORT, 60)
@@ -33,6 +36,8 @@ try:
         
         print(pm_data)
         mqtt_client.publish(MQTT_TOPIC, json.dumps(pm_data))
+        
+        time.sleep(15)
 
 
 except KeyboardInterrupt:
