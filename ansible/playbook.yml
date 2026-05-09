@@ -7,9 +7,8 @@
     - telegraf
     - grafana
     - pms5003
+    - cron
 
-  vars_files:
-    - vars/secrets.yml
   vars:
     influxdb_username: "admin"
     influxdb_password: "{{ vault_influxdb_password }}"
@@ -21,3 +20,4 @@
     influxdb_telegraf_bucket: "telegraf"
     influxdb_token_file: /tmp/influxdb_token.txt
     influxdb_admin_token: "{{ vault_influxdb_admin_token }}"
+    influxdb_backup_dir: "/home/paulp0/influx_backups"

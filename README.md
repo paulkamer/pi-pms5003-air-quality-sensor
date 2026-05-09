@@ -41,6 +41,17 @@ The playbook installs a Systemd service that automatically starts the Python scr
 
 **This playbook has been tested with a Raspberry Pi 4 and a Raspberry Pi Zero 2 W, in combination with Raspberry Pi OS (64-bit) and Raspberry Pi OS Lite (64-bit), both based on Debian 12 Bookworm*
 
+
+# Backup
+
+```sh
+influx query 'from(bucket:"telegraf") |> range(start: -30d) |> drop(columns: ["_start", "_stop"])' --raw > backup_telegraf_{datetime}.csv
+```
+
+```sh
+rsync -avzP -delete -e ssh paulp0@pi0-2wh:/home/paulp0/influx_backups/ .
+```
+
 # Sources
 
 Ansible

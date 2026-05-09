@@ -1,0 +1,24 @@
+- name: Export measurements
+  ansible.builtin.cron:
+    name: export_measurements
+    weekday: "0"
+    minute: "0"
+    hour: "12"
+    job: "/usr/bin/influx query 'from(bucket:\"{{ influxdb_telegraf_bucket }}\") |> range(start: -7d) |> drop(columns: [\"_start\", \"_stop\"])' --raw > {{ influxdb_backup_dir }}/backup_{{ influxdb_telegraf_bucket }}_last7d_$(date +\\%Y\\%m\\%d).csv"
+  
+- name: Export system health measurements
+  ansible.builtin.cron:
+    name: export_health_measurements
+    weekday: "0"
+    minute: "15"
+    hour: "12"
+    job: "/usr/bin/influx query 'from(bucket:\"{{ influxdb_default_bucket }}\") |> range(start: -7d) |> drop(columns: [\"_start\", \"_stop\"])' --raw > {{ influxdb_backup_dir }}/backup_{{ influxdb_default_bucket }}_last7d_$(date +\\%Y\\%m\\%d).csv"
+
+  
+- name: Delete old backups
+  ansible.builtin.cron:
+    name: delete_old_backups
+    weekday: "0"
+    minute: "0"
+    hour: "11"
+    job: "find {{ influxdb_backup_dir }}/ -type f -name \"*.csv\" -mtime +30 -exec rm -f {} \\;"
