@@ -1,0 +1,31 @@
+---
+- name: Install UFW
+  become: true
+  apt:
+    name: ufw
+    state: present
+
+- name: Deny all incoming traffic by default
+  become: yes
+  ufw:
+    direction: incoming
+    policy: deny
+
+- name: Allow SSH from your PC only
+  become: yes
+  ufw:
+    rule: allow
+    port: 22
+    proto: tcp
+    src: "{{ ip_main_pc }}"
+
+- name: Deny all outbound traffic by default
+  become: yes
+  ufw:
+    direction: outgoing
+    policy: deny
+
+- name: Enable UFW
+  become: yes
+  ufw:
+    state: enabled

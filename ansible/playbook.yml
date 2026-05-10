@@ -8,6 +8,10 @@
     - grafana
     - pms5003
     - cron
+    - ufw
+
+  vars_files:
+    - secrets.yml
 
   vars:
     influxdb_username: "admin"
