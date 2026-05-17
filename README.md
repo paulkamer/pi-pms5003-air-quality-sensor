@@ -7,8 +7,8 @@ The Ansible config installs the accompanying `PMS5003-python` library from Pimor
 - Mosquitto - MQTT Broker
 - Telegraf - Data collector
 - InfluxDB - Data store
-- Grafana - Dashboarding
-- A custom Python script that uses `PMS5003-python` and publishes measurements to MQTT.
+- A custom Python script that uses `PMS5003-python` and publishes measurements to MQTT
+- Cronjobs to periodically dump data from InfluxDB to CSV, for external processing
 
 Schematically these components work together in the following way:
 
@@ -19,7 +19,6 @@ graph TD
     C -->|MQTT Publish| D[Mosquitto Broker]
     E[Telegraf] -->|MQTT Subscribe| D
     E -->|Write Metrics| F[(InfluxDB)]
-    G[Grafana] --> F
 
 ```
 
