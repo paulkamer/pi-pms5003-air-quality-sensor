@@ -1,17 +1,17 @@
 - name: Export measurements
   ansible.builtin.cron:
     name: export_measurements
-    weekday: "0"
+    weekday: "*"
     minute: "0"
-    hour: "12"
+    hour: "07"
     job: "/usr/bin/influx query 'from(bucket:\"{{ influxdb_telegraf_bucket }}\") |> range(start: -7d) |> drop(columns: [\"_start\", \"_stop\"])' --raw > {{ influxdb_backup_dir }}/backup_{{ influxdb_telegraf_bucket }}_last7d_$(date +\\%Y\\%m\\%d).csv"
   
 - name: Export system health measurements
   ansible.builtin.cron:
     name: export_health_measurements
-    weekday: "0"
+    weekday: "*"
     minute: "15"
-    hour: "12"
+    hour: "07"
     job: "/usr/bin/influx query 'from(bucket:\"{{ influxdb_default_bucket }}\") |> range(start: -7d) |> drop(columns: [\"_start\", \"_stop\"])' --raw > {{ influxdb_backup_dir }}/backup_{{ influxdb_default_bucket }}_last7d_$(date +\\%Y\\%m\\%d).csv"
 
   
