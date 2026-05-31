@@ -51,6 +51,19 @@ influx query 'from(bucket:"telegraf") |> range(start: -30d) |> drop(columns: ["_
 rsync -avzP -delete -e ssh paulp0@pi0-2wh:/home/paulp0/influx_backups/ .
 ```
 
+# UFW
+
+```sh
+sudo ufw status numbered
+
+sudo ufw allow out 80,443/tcp
+sudo ufw deny out 80,443/tcp
+
+sudo ufw default allow outgoing
+sudo ufw default deny outgoing
+```
+
+
 # Sources
 
 Ansible

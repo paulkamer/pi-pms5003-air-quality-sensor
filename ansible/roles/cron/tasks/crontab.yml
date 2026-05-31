@@ -18,7 +18,7 @@
 - name: Delete old backups
   ansible.builtin.cron:
     name: delete_old_backups
-    weekday: "0"
+    weekday: "*"
     minute: "0"
     hour: "11"
-    job: "find {{ influxdb_backup_dir }}/ -type f -name \"*.csv\" -mtime +30 -exec rm -f {} \\;"
+    job: "find {{ influxdb_backup_dir }}/ -type f -name \"*.csv\" -mtime +10 -exec rm -f {} \\;"

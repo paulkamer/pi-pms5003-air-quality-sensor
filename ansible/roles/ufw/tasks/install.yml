@@ -11,11 +11,11 @@
     direction: incoming
     policy: deny
 
-- name: Allow SSH & InfluxDB HTTP requests from your PC only
+- name: Allow SSH only
   become: yes
   ufw:
     rule: allow
-    port: "22,8086"
+    port: "22"
     proto: tcp
     src: "{{ ip_main_pc }}"
 
