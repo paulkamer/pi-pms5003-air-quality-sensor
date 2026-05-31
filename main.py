@@ -37,7 +37,7 @@ try:
         print(pm_data)
         mqtt_client.publish(MQTT_TOPIC, json.dumps(pm_data))
         
-        time.sleep(15)
+        time.sleep(60)
 
 
 except KeyboardInterrupt:
