@@ -22,3 +22,14 @@
     minute: "0"
     hour: "11"
     job: "find {{ influxdb_backup_dir }}/ -type f -name \"*.csv\" -mtime +10 -exec rm -f {} \\;"
+
+
+- name: Scheduled reboot
+  become: true
+  ansible.builtin.cron:
+    name: scheduled_reboot
+    weekday: "0"
+    hour: "12"
+    minute: "0"
+    job: "/sbin/reboot"
+    user: root
