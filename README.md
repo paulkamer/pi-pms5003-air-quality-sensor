@@ -40,6 +40,23 @@ The playbook installs a Systemd service that automatically starts the Python scr
 
 **This playbook has been tested with a Raspberry Pi 4 and a Raspberry Pi Zero 2 W, in combination with Raspberry Pi OS (64-bit) and Raspberry Pi OS Lite (64-bit), both based on Debian 12 Bookworm*
 
+## Ansible Vault
+
+Required secrets stored in Ansible Vault:
+
+- ip_main_pc: <IP address of the 'main' PC>
+- ip_homeserver <IP address of the home server>
+
+```sh
+ansible-vault view ansible/secrets.yml
+ansible-vault edit ansible/secrets.yml
+```
+
+## Inspect
+
+```sh
+influx query 'from(bucket:"telegraf") |> range(start: -10m) |> drop(columns: ["_start", "_stop", "host", "topic", "_measurement"])'
+```
 
 # Backup
 
