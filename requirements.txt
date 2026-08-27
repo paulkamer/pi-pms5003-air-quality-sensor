@@ -1,2 +1,2 @@
-pms5003
-paho-mqtt
+pms5003==1.0.1
+paho-mqtt==2.1.0
