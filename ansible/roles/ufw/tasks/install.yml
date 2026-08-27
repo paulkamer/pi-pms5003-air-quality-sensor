@@ -11,13 +11,21 @@
     direction: incoming
     policy: deny
 
-- name: Allow SSH only
+- name: Allow SSH from main PC
   become: yes
   ufw:
     rule: allow
     port: "22"
     proto: tcp
     src: "{{ ip_main_pc }}"
+
+- name: Allow SSH from homeserver
+  become: yes
+  ufw:
+    rule: allow
+    port: "22,8086,8088"
+    proto: tcp
+    src: "{{ ip_homeserver }}"
 
 - name: Deny all outbound traffic by default
   become: yes
