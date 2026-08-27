@@ -23,7 +23,7 @@
   become: yes
   ufw:
     rule: allow
-    port: "22,8086,8088"
+    port: "22"
     proto: tcp
     src: "{{ ip_homeserver }}"
 
