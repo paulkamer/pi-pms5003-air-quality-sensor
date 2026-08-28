@@ -11,7 +11,7 @@
     direction: incoming
     policy: deny
 
-- name: Allow SSH from main PC
+- name: Allow SSH access from main PC
   become: yes
   ufw:
     rule: allow
@@ -19,11 +19,11 @@
     proto: tcp
     src: "{{ ip_main_pc }}"
 
-- name: Allow SSH from homeserver
+- name: Allow SSH & InflucxDB access from homeserver
   become: yes
   ufw:
     rule: allow
-    port: "22"
+    port: "22,8086"
     proto: tcp
     src: "{{ ip_homeserver }}"
 
